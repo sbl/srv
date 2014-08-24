@@ -7,5 +7,5 @@ yes, like `python -m SimpleHTTPServer`
 ```
 Usage of srv:
   -dir=".": directory to serve
-  -port="5000": server port
+  -addr=":5000": server addr
 ```

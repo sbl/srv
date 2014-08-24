@@ -2,31 +2,23 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
-)
+	"os"
 
-var (
-	port = flag.String("port", "5000", "srv port")
-	dir  = flag.String("dir", ".", "directory to srv")
+	"github.com/gorilla/handlers"
 )
-
-func logger(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		log.Println(req.Method, req.URL.String())
-		h.ServeHTTP(w, req)
-	})
-}
 
 func main() {
+	var (
+		addr = flag.String("addr", ":5000", "srv addr")
+		dir  = flag.String("dir", ".", "directory to srv")
+	)
 	flag.Parse()
 
 	fileServer := http.FileServer(http.Dir(*dir))
-	host := "localhost:" + *port
+	http.Handle("/", handlers.LoggingHandler(os.Stdout, fileServer))
 
-	fmt.Println("=== srv", *dir, "->", host, "===")
-	if err := http.ListenAndServe(host, logger(fileServer)); err != nil {
-		panic("could not srv" + host)
-	}
+	log.Println("=== srv", *dir, "->", *addr, "===")
+	log.Fatal(http.ListenAndServe(*addr, nil))
 }
