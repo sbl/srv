@@ -1,0 +1,13 @@
+language: go
+
+matrix:
+  include:
+  - go: "1.10.x"
+    script:  go build -v ./...
+  - go: "1.11.x"
+    script: go build -v -mod=vendor ./...
+
+env:
+  - GO111MODULE=on
+
+install: true

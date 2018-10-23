@@ -11,7 +11,7 @@ import (
 
 func main() {
 	var (
-		addr = flag.String("addr", ":5000", "srv addr")
+		addr = flag.String("addr", ":8080", "srv addr")
 		dir  = flag.String("dir", ".", "directory to srv")
 	)
 	flag.Parse()
